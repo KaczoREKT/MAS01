@@ -1,110 +1,37 @@
 import Files.MovieEvent;
+import Files.Reservation;
+import Files.ShopSystem;
+import Files.Ticket;
+import Files.User;
 
 import java.util.*;
 
-class Ticket {
-    private static int idCounter = 1;
-    private int id;
-    private double price;
-    private boolean isBooked;
-
-    public Ticket(double price) {
-        this.id = idCounter++;
-        this.price = price;
-        this.isBooked = false;
-    }
-
-    public int getId() { return id; }
-    public double getPrice() { return price; }
-    public boolean isBooked() { return isBooked; }
-    public void book() { isBooked = true; }
-}
-
-class Event {
-    private String name;
-    private String date;
-    private List<Files.Ticket> tickets;
-
-    public Event(String name, String date, int numTickets, double price) {
-        this.name = name;
-        this.date = date;
-        this.tickets = new ArrayList<>();
-        for (int i = 0; i < numTickets; i++) {
-            tickets.add(new Files.Ticket(price));
-        }
-    }
-
-    public String getName() { return name; }
-    public String getDate() { return date; }
-    public List<Files.Ticket> getTickets() { return tickets; }
-}
-
-class User {
-    private String name;
-    private String email;
-
-    public User(String name, String email) {
-        this.name = name;
-        this.email = email;
-    }
-    public String getName() { return name; }
-    public String getEmail() { return email; }
-}
-
-class Reservation {
-    private Files.User user;
-    private Files.Ticket ticket;
-
-    public Reservation(Files.User user, Files.Ticket ticket) {
-        this.user = user;
-        this.ticket = ticket;
-        ticket.book();
-    }
-
-    public void printDetails() {
-        System.out.println("Rezerwacja:");
-        System.out.println("Użytkownik: " + user.getName() + " (" + user.getEmail() + ")");
-        System.out.println("Bilet ID: " + ticket.getId() + ", Cena: " + ticket.getPrice());
-    }
-}
-
-class TicketBookingSystem {
-    private List<MovieEvent> events = new ArrayList<>();
-    private List<Files.Reservation> reservations = new ArrayList<>();
-
-    public void addEvent(MovieEvent event) {
-        events.add(event);
-    }
-
-    public void bookTicket(Files.User user, String eventName) {
-        for (MovieEvent event : events) {
-            if (event.getName().equalsIgnoreCase(eventName)) {
-                for (Files.Ticket ticket : event.getTickets()) {
-                    if (!ticket.isBooked()) {
-                        reservations.add(new Files.Reservation(user, ticket));
-                        System.out.println("Bilet zarezerwowany dla " + user.getName());
-                        return;
-                    }
-                }
-                System.out.println("Brak dostępnych biletów na " + eventName);
-                return;
-            }
-        }
-        System.out.println("Wydarzenie nie znalezione.");
-    }
-}
-
 public class Main {
     public static void main(String[] args) {
-        Files.System system = new Files.System();
-        system.addEvent(new MovieEvent("Koncert Rockowy", "2025-06-10", 5, 100.0));
-        system.addEvent(new MovieEvent("Teatr", "2025-06-15", 3, 50.0));
+        // Tworzenie użytkownika
+        User user = new User("1", "Jan", "Kowalski", "jan.kowalski@example.com", "123456789", "Warszawa, Polska");
 
-        Files.User user1 = new Files.User("Jan Kowalski", "jan@example.com");
-        Files.User user2 = new Files.User("Anna Nowak", "anna@example.com");
+        // Tworzenie biletów
+        Ticket ticket1 = new Ticket(1, "A1", 50.0);
+        Ticket ticket2 = new Ticket(2, "A2", 50.0);
 
-        system.bookTicket(user1, "Koncert Rockowy");
-        system.bookTicket(user2, "Teatr");
-        system.bookTicket(user1, "Teatr");
+        // Tworzenie wydarzenia filmowego
+        List<Ticket> tickets = new ArrayList<>();
+        tickets.add(ticket1);
+        tickets.add(ticket2);
+        MovieEvent event = new MovieEvent("Królewna Śnieżka", "Najgorszy film na świecie!", new Date(), tickets);
+
+        // Tworzenie systemu
+        ShopSystem system = new ShopSystem();
+        system.addEvent(event);
+
+        // Rezerwacja biletu
+        Reservation reservation = new Reservation(user, ticket1);
+        system.addReservation(reservation);
+
+        // Wypisanie wyników
+        System.out.println("Użytkownik: " + user.getName() + " " + user.getSurname());
+        System.out.println("Zarezerwował bilet: " + ticket1.getSeat() + " na film: " + event.getName());
     }
+
 }

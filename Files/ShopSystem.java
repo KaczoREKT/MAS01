@@ -1,9 +1,10 @@
 package Files;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class System {
+public class ShopSystem {
     private List<MovieEvent> events = new ArrayList<>();
     private List<Reservation> reservations = new ArrayList<>();
 

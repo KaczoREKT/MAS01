@@ -17,6 +17,16 @@ public class MovieEvent {
         int numTickets = tickets.size();
     }
 
+    public Ticket reserveTicket() {
+        for (Ticket ticket : tickets) {
+            if (ticket.isAvailable()) {
+                ticket.setAvailable(false);
+                return ticket;
+            }
+        }
+        return null; // Brak dostępnych biletów
+    }
+
     public String getName() { return name; }
     public String getDescription() { return description; }
     public Date getDate() { return date; }

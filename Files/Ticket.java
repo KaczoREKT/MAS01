@@ -14,5 +14,10 @@ public class Ticket {
         this.isAvailable = true;
     }
 
+    public int getId() { return id; }
+    public String getSeat() { return seat; }
+    public double getPrice() { return price; }
+    public boolean isAvailable() { return isAvailable; }
 
+    public void setAvailable(boolean available) { this.isAvailable = available; }
 }
