@@ -1,19 +1,18 @@
-package Files;
+package InnaKlasa;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
- * Represents a movie event at Kino Menina.
+ * Reprezentuje pojedynczy film.
  */
-public class MovieEvent {
+public class Film {
     private String name;
     private String description;
     private Date date;
     private List<Ticket> tickets;
-    private static final List<MovieEvent> extent = new ArrayList<>();
+    private static final List<Film> extent = new ArrayList<>();
 
-    public MovieEvent(String name, String description, Date date, List<Ticket> tickets) {
+    public Film(String name, String description, Date date, List<Ticket> tickets) {
         this.name = name;
         this.description = description;
         this.date = date;
@@ -28,7 +27,7 @@ public class MovieEvent {
                 return ticket;
             }
         }
-        System.out.println("No available tickets for event: " + name);
+        System.out.println("No available tickets for film: " + name);
         return null;
     }
 
@@ -36,7 +35,7 @@ public class MovieEvent {
         return tickets.stream().filter(Ticket::isAvailable).collect(Collectors.toList());
     }
 
-    public static List<MovieEvent> getExtent() {
+    public static List<Film> getExtent() {
         return Collections.unmodifiableList(extent);
     }
 

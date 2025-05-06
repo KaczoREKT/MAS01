@@ -1,38 +1,35 @@
-package Files;
+package Files_ObjectPlus;
 
-import java.util.*;
+import util.ObjectPlus;
 
 /**
  * Represents a user of the system.
  */
-public class User {
+public class User extends ObjectPlus {
     private String id;
     private String name;
     private String surname;
     private String email;
     private String phone;
     private String address;
-    private static final List<User> extent = new ArrayList<>();
 
     public User(String id, String name, String surname, String email, String phone, String address) {
+        super();  // Dodanie do extent w konstruktorze klasy bazowej
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.phone = phone;
         this.address = address;
-        extent.add(this);
-    }
-
-    public static List<User> getExtent() {
-        return Collections.unmodifiableList(extent);
     }
 
     public static void showExtent() {
-        extent.forEach(System.out::println);
+        getExtentFromClass(User.class).forEach(System.out::println);
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
     @Override
     public String toString() {
